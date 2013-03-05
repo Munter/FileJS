@@ -1,6 +1,4 @@
-define([
-    'file/fileapi'
-], function (fileapi) {
+define(function (fileapi) {
     var cancelEvent = function (e) {
             e.preventDefault();
             e.stopPropagation();
@@ -8,7 +6,7 @@ define([
         };
 
     return function (element, callback) {
-        if (fileapi) {
+        if (window.File && window.FileList) {
             element.addEventListener('dragover', cancelEvent, false);
             element.addEventListener('dragenter', cancelEvent, false);
             element.addEventListener('drop', function (e) {
