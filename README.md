@@ -54,3 +54,7 @@ require(['file/input'], function (input) {
 # License and Copyright
 Copyright: Peter Müller 2013
 License: MIT
+
+
+[![Bitdeli Badge](https://d2weczhvl823v0.cloudfront.net/Munter/filejs/trend.png)](https://bitdeli.com/free "Bitdeli Badge")
+
