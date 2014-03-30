@@ -1,0 +1,24 @@
+{
+  "name": "files",
+  "version": "0.1.0",
+  "description": "Micro AMD libs to get file handles in a browser from a drop or selection on a file input",
+  "main": "drop.js",
+  "directories": {
+    "test": "test"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "gh:Munter/FileJS"
+  },
+  "keywords": [
+    "file",
+    "upload",
+    "drop",
+    "input"
+  ],
+  "author": "Peter Müller <munter@fumle.dk>",
+  "license": "MIT"
+}
