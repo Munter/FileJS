@@ -1,4 +1,22 @@
-define(function (fileapi) {
+/**
+ * Hookable events:
+ *
+ * - ondragenter
+ * - ondragover
+ * - ondragleave
+ * - ondrop
+**/
+
+(function (root, nameSpace, factory) {
+    if (!root[nameSpace]) {
+        root[nameSpace] = {};
+    }
+    root[nameSpace].drop = factory;
+
+    if (typeof define === 'function' && define.amd) {
+        define(factory);
+    }
+}(this, 'FileJS', function () {
     var cancelEvent = function (e) {
             e.preventDefault();
             e.stopPropagation();
@@ -6,47 +24,43 @@ define(function (fileapi) {
         };
 
     return function (element, config) {
-        var timer;
+        var timer,
+            on = function (event, handler) {
+                element.addEventListener(event, function (e) {
+                    cancelEvent(e);
+                    handler(e);
+                }, false);
+            };
 
         if (window.File && window.FileList) {
-            element.addEventListener('dragover', function (e) {
-                cancelEvent(e);
+            if (typeof config.ondragenter === 'function') {
+                on('dragenter', function (e) {
+                    timer = setTimeout(function () {
+                        config.ondragenter(e);
+                    });
+                });
+            }
 
-                if (typeof config.over === 'function') {
-                    config.over(e);
-                }
-            }, false);
+            if (typeof config.ondragover === 'function') {
+                on('dragover', config.ondragover);
+            }
 
-            element.addEventListener('dragenter', function (e) {
-                cancelEvent(e);
-
-                timer = setTimeout(function () {
-                    if (typeof config.enter === 'function') {
-                        config.enter(e);
+            if (typeof config.ondragleave === 'function') {
+                on('dragleave', function (e) {
+                    if (timer) {
+                        clearTimeout(timer);
+                        timer = undefined;
+                    } else {
+                        config.ondragleave(e);
                     }
                 });
-            }, false);
+            }
 
-            element.addEventListener('dragleave', function (e) {
-                cancelEvent(e);
-
-                if (timer) {
-                    clearTimeout(timer);
-                    timer = undefined;
-                } else {
-                    if (typeof config.leave === 'function') {
-                        config.leave(e);
-                    }
-                }
-            }, false);
-
-            element.addEventListener('drop', function (e) {
-                cancelEvent(e);
-
-                if (typeof config.drop === 'function') {
-                    Array.prototype.forEach.call(e.dataTransfer.files, config.drop);
-                }
-            }, false);
+            if (typeof config.ondrop === 'function') {
+                on('drop', function (e) {
+                    Array.prototype.forEach.call(e.dataTransfer.files, config.ondrop);
+                });
+            }
         }
     };
-});
+}));

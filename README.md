@@ -28,8 +28,13 @@ A function that makes a html element accept file drop events. It takes a `htmlEl
 ### Example
 ``` javascript
 require(['file/drop'], function (drop) {
-    drop(document.getElementById('dropzone'), function (file) {
-        console.log(file);
+    drop(document.getElementById('dropzone'), {
+        ondragenter: function () { ... },
+        ondragover: function () { ... },
+        ondragleave: function () { ... },
+        ondrop: function (file) {
+            console.log(file);
+        }
     });
 });
 ```
