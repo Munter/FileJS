@@ -1,6 +1,6 @@
 {
   "name": "files",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "description": "Micro AMD libs to get file handles in a browser from a drop or selection on a file input",
   "main": "drop.js",
   "directories": {
